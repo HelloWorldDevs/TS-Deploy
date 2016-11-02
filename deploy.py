@@ -1,4 +1,5 @@
 #Dependencies
+import sys
 import xmlrpclib 		#talk to the server using xml
 import os.path			#check file directories
 
@@ -20,8 +21,16 @@ session_id, account = server.login(
 	2)
 
 #Check for the existence of the site on the server
-siteList = server.list_websites(session_id)
-print siteList
+websiteList = server.list_websites(session_id)
+websiteFound = False
+for website in websiteList:
+	if siteConfig.websiteName == website['name']:
+		websiteFound = True
+if websiteFound:
+	print "Your site " + siteConfig.websiteName + " is already set up!"
+	sys.exit()
+else:
+	print "Starting server configuration..."
 
 #cmd = "rm -f index.html && git clone https://github.com/HelloWorldDevs/lacey.git ."
 #test existence of webapp
