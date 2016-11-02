@@ -3,11 +3,13 @@ import xmlrpclib 		#talk to the server using xml
 import os.path			#check file directories
 
 
+
 #Import siteConfig.py
 if os.path.isfile("siteConfig.py"):
 	import siteConfig
 else:
-	sys.exit("Your siteConfig.py file was not found. See example.siteconfig.py for more information.")
+	sys.exit("Your siteConfig.py file was not found. See example.siteconfig.py for more information on setting up siteConfig.py.")
+
 
 #Connect to webFaction API and Authenticate	
 server = xmlrpclib.ServerProxy('https://api.webfaction.com/')
@@ -16,6 +18,10 @@ session_id, account = server.login(
 	siteConfig.userPass, 
 	siteConfig.machineName, 
 	2)
+
+#Check for the existence of the site on the server
+siteList = server.list_websites(session_id)
+print siteList
 
 #cmd = "rm -f index.html && git clone https://github.com/HelloWorldDevs/lacey.git ."
 #test existence of webapp
