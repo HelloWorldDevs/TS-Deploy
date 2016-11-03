@@ -20,28 +20,28 @@ session_id, account = server.login(
 	siteConfig.machineName,
 	1)
 
-#Check for the existence of the site on the server
+#Check for the existence of the site on the server,
+# if it exists do a git pull and exit
 websiteList = server.list_websites(session_id)
 websiteFound = False
 for website in websiteList:
 	if siteConfig.websiteName == website['name']:
-		websiteFound = True
-if websiteFound:
-	print "Your site " + siteConfig.websiteName + " is already set up!"
-	sys.exit()
-else:
-	print "Starting server configuration..."
+		print "Your site " + siteConfig.websiteName + " is already set up!"
+		print website
+		pullCmd = "cd webapps/"+ siteConfig.websiteName + "_app && git pull origin master"
+		server.system(session_id, pullCmd)
+		sys.exit()
 
 
-#Setting up the initial deploy
+#Setting up the server and initial deployment
 #=============================
+print "Starting server configuration..."
 
 #1. Create Webapp
 #Check for the existence of the site on the server
 appList = server.list_apps(session_id)
 appFound = False
 appName = siteConfig.websiteName + "_app"
-print appList
 for app in appList:
 	if appName == app['name']:
 		appFound = True
@@ -77,57 +77,23 @@ else:
 #3. Create website
 #Build the site
 print "Starting website configuration..."
-server.create_website(session_id,
-	siteConfig.websiteName,
-	siteConfig.ipAddress,
-	False,
-	[domainName],
-	[appName, '/'])
+if websiteFound:
+	print "Website already configured"
+else:
+	server.create_website(session_id,
+		siteConfig.websiteName,
+		siteConfig.ipAddress,
+		False,
+		[domainName],
+		[appName, '/'])
+	initGit = "cd /home/danlinn/webapps/"+appName+" && rm index.html && git clone " + siteConfig.repoUrl + " ."
+	server.system(session_id, initGit)
 
-#cmd = "rm -f index.html && git clone https://github.com/HelloWorldDevs/lacey.git ."
-#test existence of webapp
-#testAppPresence = "if [ -d ~/home/danlinn/webapps/lacey ]; then echo ; fi"
-#
-#server.system(session_id, testAppPresence)
+#Print results of new website setup
+print "Your website has been set up and configured."
+for website in websiteList:
+	if siteConfig.websiteName == website['name']:
+		print website
 
-#
-#appList = server.list_apps(session_id)
-#appExists = False
-#
-#for app in appList:
-#	if siteConfig.webappName + "_app" == app['name']:
-#		appExists = True
-#
-#if appExists:
-#	print "WebApp " + siteConfig.webappName + " already exists on the server"
-#else:
-#	print "WebApp does not exist yet, building app..."
-##	Creates a new app
-#	server.create_app(session_id, siteConfig.webappName + "_app", 'static_php56', False, '', False)
-##	Removes the dummy index.html from app creation
-#	server.system(session_id, "cd /home/danlinn/webapps/" + siteConfig.webappName + "_app" + " && rm -f index.html")
-#
-#
-#siteList = server.list_websites(session_id)
-#siteExists = False
-#for site in siteList:
-#	if siteConfig.siteName == site['name']:
-#		siteExists = True
-#
-#if siteExists:
-#	print "Website " + siteConfig.siteName + " already exists on the server"
-#else:
-#	print "Website does not yet exist, building website..."
-#	print session_id
-##	Create a new website
-#	appAddress = "/home/danlinn/webapps/" + siteConfig.webappName + "_app/"
-#	print appAddress
-#	server.create_website(
-#		session_id,
-#		siteConfig.siteName,
-#		"198.58.114.22",
-#		False,
-#		[siteConfig.siteName],
-#		"",
-#		[[ siteConfig.webappName  + "_app", "http://" + siteConfig.siteName + ".hwdevs.site" ]]
-#		)
+#=============================
+#End settting up the server
