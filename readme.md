@@ -1,6 +1,5 @@
 # Webfaction Deployment
-
-## By _**Joseph Karasek**_ for _**Hello World Devs**_
+#### By _**Joseph Karasek**_ for _**Hello World Devs**_
 
 ### Version 0.1
 
