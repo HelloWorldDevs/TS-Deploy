@@ -37,7 +37,7 @@ Simply run... `python deploy.py`. This command will both initialize a project an
 
 ## Known Bugs
 
-_Deployment and updates to the repo are handled with Git. Currently this causes the script to exist with an error message, despite the actions being successful._
+_No known bugs at this time._
 
 ## Resources
 

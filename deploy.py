@@ -28,7 +28,7 @@ for website in websiteList:
 	if siteConfig.websiteName == website['name']:
 		print "Your site " + siteConfig.websiteName + " is already set up!"
 		print website
-		pullCmd = "cd webapps/"+ siteConfig.websiteName + "_app && git pull origin master"
+		pullCmd = "cd webapps/"+ siteConfig.websiteName + "_app && git pull -q origin master"
 		print "Pulling most recent changes"
 		server.system(session_id, pullCmd)
 		sys.exit()
@@ -87,7 +87,7 @@ else:
 		False,
 		[domainName],
 		[appName, '/'])
-	initGit = "cd /home/danlinn/webapps/"+appName+" && rm index.html && git clone " + siteConfig.repoUrl + " ."
+	initGit = "cd /home/danlinn/webapps/"+appName+" && rm index.html && git clone -q " + siteConfig.repoUrl + " ."
 	server.system(session_id, initGit)
 
 #Print results of new website setup
