@@ -60,7 +60,7 @@ else:
 #Check for the existence of the domain on the server and create it if needed
 domainList = server.list_domains(session_id)
 domainFound = False
-domainName = siteConfig.websiteName + ".webfactional.com"
+domainName = siteConfig.websiteName + ".hwdevs.com"
 for domain in domainList:
 	if domainName == domain['domain']:
 		domainFound = True
@@ -68,13 +68,10 @@ if domainFound:
 	print "Warning: The domain " + domainName + " has already been created on the server."
 else:
 	print "Starting domain configuration..."
-#	server.create_app(
-#		session_id,
-#		appName,
-#		'static_php56',
-#		False,
-#		'',
-#		False)
+	server.create_domain(
+		session_id,
+		".hwdevs.com",
+		siteConfig.websiteName)
 
 #cmd = "rm -f index.html && git clone https://github.com/HelloWorldDevs/lacey.git ."
 #test existence of webapp
