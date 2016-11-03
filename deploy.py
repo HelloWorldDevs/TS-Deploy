@@ -18,7 +18,7 @@ session_id, account = server.login(
 	siteConfig.userName,
 	siteConfig.userPass,
 	siteConfig.machineName,
-	2)
+	1)
 
 #Check for the existence of the site on the server
 websiteList = server.list_websites(session_id)
@@ -41,6 +41,7 @@ else:
 appList = server.list_apps(session_id)
 appFound = False
 appName = siteConfig.websiteName + "_app"
+print appList
 for app in appList:
 	if appName == app['name']:
 		appFound = True
@@ -70,8 +71,18 @@ else:
 	print "Starting domain configuration..."
 	server.create_domain(
 		session_id,
-		".hwdevs.com",
-		siteConfig.websiteName)
+		domainName)
+
+		
+#3. Create website
+#Build the site
+print "Starting website configuration..."
+server.create_website(session_id,
+	siteConfig.websiteName,
+	siteConfig.ipAddress,
+	False,
+	[domainName],
+	[appName, '/'])
 
 #cmd = "rm -f index.html && git clone https://github.com/HelloWorldDevs/lacey.git ."
 #test existence of webapp
