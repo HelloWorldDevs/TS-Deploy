@@ -29,6 +29,7 @@ for website in websiteList:
 		print "Your site " + siteConfig.websiteName + " is already set up!"
 		print website
 		pullCmd = "cd webapps/"+ siteConfig.websiteName + "_app && git pull origin master"
+		print "Pulling most recent changes"
 		server.system(session_id, pullCmd)
 		sys.exit()
 
