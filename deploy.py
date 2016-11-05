@@ -2,6 +2,7 @@
 import sys
 import xmlrpclib 		#talk to the server using xml
 import os.path			#check file directories
+import scripts.webfaction as webfaction
 
 
 
@@ -31,7 +32,7 @@ for website in websiteList:
 		pullCmd = "cd webapps/"+ siteConfig.websiteName + "_app && git pull -q origin master"
 		print "Pulling most recent changes"
 		server.system(session_id, pullCmd)
-		sys.exit()
+		# sys.exit()
 
 
 #Setting up the server and initial deployment
@@ -40,23 +41,13 @@ print "Starting server configuration..."
 
 #1. Create Webapp
 #Check for the existence of the site on the server
-appList = server.list_apps(session_id)
-appFound = False
 appName = siteConfig.websiteName + "_app"
-for app in appList:
-	if appName == app['name']:
-		appFound = True
+appFound = webfaction.checkApp(server, session_id, appName)
 if appFound:
 	print "Warning: The webapp " + appName + " has already been created on the server."
 else:
 	print "Starting webApp configuration..."
-	server.create_app(
-		session_id,
-		appName,
-		'static_php56',
-		False,
-		'',
-		False)
+	webfaction.createApp(server, session_id, appName)
 
 #2. Create Domain
 #Check for the existence of the domain on the server and create it if needed
@@ -74,7 +65,7 @@ else:
 		session_id,
 		domainName)
 
-		
+
 #3. Create website
 #Build the site
 print "Starting website configuration..."
