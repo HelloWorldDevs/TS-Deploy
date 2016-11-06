@@ -53,7 +53,7 @@ def createDomain(server, session_id, siteConfig):
 
 def gitClone(server, session_id, siteConfig):
     initGit = "cd /home/danlinn/webapps/"+siteConfig.appName+" && rm index.html && git clone -q " + siteConfig.repoUrl + " ."
-	server.system(session_id, initGit)
+    server.system(session_id, initGit)
 
 def gitPull(server, session_id, siteConfig):
     gitPull = "cd /home/danlinn/webapps/"+siteConfig.appName+" && git pull -q origin master"

@@ -15,15 +15,14 @@ else:
 server = xmlrpclib.ServerProxy('https://api.webfaction.com/')
 session_id = webfaction.login(server, siteConfig)
 
-#Check for the existence of the site on the server,
-legacySite = webfaction.checkSite(server, session_id, siteConfig)
-if legacySite:
+#Check for the existence of the site on the server, offer to pull if it does
+if webfaction.checkSite(server, session_id, siteConfig):
 	print "Your site already exists. Here is the info for it..."
-	print legacySite
-	prompt = raw_input("Would you like to pull the latest version from GitHub? [Y/n]")
+	prompt = raw_input("Would you like to pull the latest version of master from GitHub? [Y/n]")
 	if prompt == "y" or prompt == "Y":
 		print "Pulling latest version..."
 		webfaction.gitPull(server, session_id, siteConfig)
+		print "Pull successful"
 	sys.exit()
 
 #Setting up the server and initial deployment
@@ -37,6 +36,7 @@ if webfaction.checkApp(server, session_id, siteConfig):
 else:
 	print "Starting webApp configuration..."
 	webfaction.createApp(server, session_id, siteConfig)
+	print "Finished webApp configuration"
 
 
 #2. Create Domain
@@ -45,12 +45,14 @@ if webfaction.checkDomain(server, session_id, siteConfig):
 else:
 	print "Starting domain configuration..."
 	webfaction.createDomain(server, session_id, siteConfig)
+	print "Finished domain configuration"
 
 
 #3. Create website
 print "Starting website configuration..."
 webfaction.createDomain(server, session_id, siteConfig)
 webfaction.gitClone(server, session_id, siteConfig)
+print "Finished website configuration"
 
 
 #4. Print results of new website setup
