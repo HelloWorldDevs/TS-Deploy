@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+
 #Dependencies
 import sys
 import xmlrpclib 		#talk to the server using xml
 import os.path			#check file directories
-import scripts.webfaction as webfaction  #HWD custom webfaction module
+from scripts.hwdevs import Webfaction  #HWD custom webfaction module
 
 #Import siteConfig.py
 if os.path.isfile("siteConfig.py"):
@@ -13,15 +15,15 @@ else:
 
 #Connect to webFaction API, authenticate
 server = xmlrpclib.ServerProxy('https://api.webfaction.com/')
-session_id = webfaction.login(server, siteConfig)
+webfaction = Webfaction(server, siteConfig)
 
 #Check for the existence of the site on the server, offer to pull if it does
-if webfaction.checkSite(server, session_id, siteConfig):
-	print "Your site already exists. Here is the info for it..."
+if webfaction.checkSite():
+	print "Your site already exists."
 	prompt = raw_input("Would you like to pull the latest version of master from GitHub? [Y/n]")
 	if prompt == "y" or prompt == "Y":
 		print "Pulling latest version..."
-		webfaction.gitPull(server, session_id, siteConfig)
+		webfaction.gitPull()
 		print "Pull successful"
 	sys.exit()
 
@@ -31,34 +33,34 @@ print "Starting server configuration..."
 
 
 #1. Create Webapp
-if webfaction.checkApp(server, session_id, siteConfig):
+if webfaction.checkApp():
 	print "Warning: The webapp " + siteConfig.appName + " has already been created on the server."
 else:
 	print "Starting webApp configuration..."
-	webfaction.createApp(server, session_id, siteConfig)
-	# webfaction.addHtaccess(server, session_id, siteConfig)
+	webfaction.createApp()
+	# webfaction.addHtaccess()
 	print "Finished webApp configuration"
 
 
 #2. Create Domain
-if webfaction.checkDomain(server, session_id, siteConfig):
+if webfaction.checkDomain():
 	print "Warning: The domain " + siteConfig.domainName + " has already been created on the server."
 else:
 	print "Starting domain configuration..."
-	webfaction.createDomain(server, session_id, siteConfig)
+	webfaction.createDomain()
 	print "Finished domain configuration"
 
 
 #3. Create website
 print "Starting website configuration..."
-webfaction.createDomain(server, session_id, siteConfig)
-webfaction.gitClone(server, session_id, siteConfig)
+webfaction.createDomain()
+webfaction.gitClone()
 print "Finished website configuration"
 
 
 #4. Print results of new website setup
 print "Your website has been set up and configured."
-print webfaction.checkSite(server, session_id, siteConfig)
+print webfaction.checkSite()
 sys.exit()
 
 #=============================
