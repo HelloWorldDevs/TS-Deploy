@@ -21,7 +21,7 @@ if legacySite:
 	print "Your site already exists. Here is the info for it..."
 	print legacySite
 	prompt = raw_input("Would you like to pull the latest version from GitHub? [Y/n]")
-	if prompt == "y" || prompt == "Y":
+	if prompt == "y" or prompt == "Y":
 		print "Pulling latest version..."
 		webfaction.gitPull(server, session_id, siteConfig)
 	sys.exit()
