@@ -36,6 +36,7 @@ if webfaction.checkApp(server, session_id, siteConfig):
 else:
 	print "Starting webApp configuration..."
 	webfaction.createApp(server, session_id, siteConfig)
+	# webfaction.addHtaccess(server, session_id, siteConfig)
 	print "Finished webApp configuration"
 
 

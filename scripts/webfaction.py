@@ -58,3 +58,5 @@ def gitClone(server, session_id, siteConfig):
 def gitPull(server, session_id, siteConfig):
     gitPull = "cd /home/danlinn/webapps/"+siteConfig.appName+" && git pull -q origin master"
     server.system(session_id, gitPull)
+
+# def addHtaccess(server, session_id, siteConfig):
