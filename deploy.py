@@ -2,7 +2,7 @@
 import sys
 import xmlrpclib 		#talk to the server using xml
 import os.path			#check file directories
-import scripts.webfaction as webfaction
+import scripts.webfaction as webfaction  #HWD custom webfaction module
 
 #Import siteConfig.py
 if os.path.isfile("siteConfig.py"):
