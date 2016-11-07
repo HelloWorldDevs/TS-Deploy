@@ -2,18 +2,18 @@
 
 #Dependencies
 import sys
-import xmlrpclib 		#talk to the server using xml
-import os.path			#check file directories
-from scripts.hwdevs import Webfaction  #HWD custom webfaction module
-
-#Import siteConfig.py
-if os.path.isfile("siteConfig.py"):
+import xmlrpclib 							#talk to the server using xml
+import os.path								#check file directories
+from scripts.hwdevs import Webfaction  		#HWD custom webfaction module
+if os.path.isfile("siteConfig.py"):  		#Import siteConfig.py
 	import siteConfig
 else:
 	sys.exit("Your siteConfig.py file was not found. See example.siteconfig.py for more information on setting up siteConfig.py.")
 
 
-#Connect to webFaction API, authenticate
+
+
+#Connect to webFaction API, authenticate, create webFaction object
 server = xmlrpclib.ServerProxy('https://api.webfaction.com/')
 webfaction = Webfaction(server, siteConfig)
 
@@ -53,7 +53,7 @@ else:
 
 #3. Create website
 print "Starting website configuration..."
-webfaction.createDomain()
+webfaction.createSite()
 webfaction.gitClone()
 print "Finished website configuration"
 

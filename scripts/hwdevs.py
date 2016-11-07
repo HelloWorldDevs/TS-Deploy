@@ -21,7 +21,7 @@ class Webfaction(object):
 
     def createApp(self, appType='static_php56'):
         self.server.create_app(
-    		self.self.session_id,
+    		self.session_id,
     		self.siteConfig.appName,
     		appType,
     		False,
@@ -56,7 +56,7 @@ class Webfaction(object):
     		self.siteConfig.domainName)
 
     def gitClone(self):
-        initGit = "cd /home/danlinn/webapps/"+self.siteConfig.appName+" && rm index.html && git clone -q " + self.siteConfig.repoUrl + " ."
+        initGit = "cd /home/danlinn/webapps/"+self.siteConfig.appName+" && if [ -e index.html ]; then rm index.html; fi && git clone -q " + self.siteConfig.repoUrl + " . 2>&1 | grep -v 'warning: You appear to have cloned an empty repository.'"
         self.server.system(self.session_id, initGit)
 
     def gitPull(self):

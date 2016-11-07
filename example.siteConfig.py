@@ -9,6 +9,10 @@ machineName = "Wf-198-58-114-22"
 ipAddress = "198.58.114.22"
 
 #Website Information
-websiteName = "foobar"
+websiteName = "moobar"
+domain = ".hwdevs.site"
 repoUrl = "https://github.com/HelloWorldDevs/foobar.git"
 
+#Server configurations, you should not need to edit these
+appName = websiteName + "_app"
+domainName = websiteName + domain
